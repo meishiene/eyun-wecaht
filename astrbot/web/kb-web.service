@@ -1,0 +1,36 @@
+[Unit]
+Description=Read-only web viewer for the AstrBot knowledge base
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+DynamicUser=yes
+EnvironmentFile=/etc/astrbot-kb-web.env
+ExecStart=/usr/bin/python3 -I /opt/astrbot/web/kb_web.py
+Restart=always
+RestartSec=3
+# 只读与隔离：即使程序被攻破也写不了知识库、看不到别的目录
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_INET AF_UNIX
+RestrictNamespaces=yes
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+SystemCallArchitectures=native
+CapabilityBoundingSet=
+# /opt/astrbot 整体对本进程隐藏（里面有面板配置、模型 Key、代理节点密码），只只读挂载它需要的三个目录
+TemporaryFileSystem=/opt/astrbot:ro
+BindReadOnlyPaths=/opt/astrbot/data/kb /opt/astrbot/data/plugins/kb_digest /opt/astrbot/web /opt/astrbot/backup/status
+InaccessiblePaths=-/root -/home -/etc/astrbot-kb-web.env
+LimitNOFILE=1024
+MemoryMax=256M
+TasksMax=64
+
+[Install]
+WantedBy=multi-user.target

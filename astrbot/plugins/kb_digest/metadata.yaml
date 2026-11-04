@@ -1,0 +1,4 @@
+name: kb_digest
+desc: 把转发/粘贴给机器人的中转站问答整理成知识库（分类、简要、报告、原文）
+version: v1.0.0
+author: local

@@ -1,75 +1,35 @@
-# eyun-wecaht
+# 微信机器人：AstrBot 与 Eyun
 
-用 Eyun（e云管家）个人微信 API 接收群消息和私聊消息，落到 SQLite，并统计员工对客户消息的**首次响应时长**。只用 Python 标准库，没有第三方依赖。
+中转站客服知识库的微信机器人，目前有两套互相独立的实现。**只有 AstrBot 这一套在线上运行**；Eyun 这一套代码和测试完整，但已于 2026-11-03 决定不用，保留作参考，也是日后替换 AstrBot 的备选。
 
-> **状态：已放弃接入生产（2026-11-03）。** 代码和测试完整，保留作参考。原因见文末。
+| 目录 | 是什么 | 状态 |
+|---|---|---|
+| [`astrbot/`](astrbot/README.md) | AstrBot 插件 `kb_digest` + 只读网页 + 每日备份 + 种子导入与补全脚本。把微信里粘贴的问答整理成分类知识库 | **已上线** |
+| [`eyun/`](eyun/README.md) | Eyun（e云管家）个人微信回调接收服务 + 员工首次响应时长统计 | 代码完成，**未上线，已放弃** |
+| [`docs/`](docs/) | 交接文档 | — |
 
-## 已完成的功能
+## 先看哪份文档
+1. **[`docs/功能归属与交接.md`](docs/功能归属与交接.md)**：每个功能属于哪个机器人、做到什么程度、哪些没做。接手的人先看这份。
+2. **[`docs/迁移-AstrBot换Eyun.md`](docs/迁移-AstrBot换Eyun.md)**：想用 Eyun 替换 AstrBot，要做哪些事、哪些代码能直接复用。
+3. 各目录自己的 README：命令、部署、备份与还原的细节。
 
-### 1. 回调接收服务 `eyun/eyun_recv.py`
-收到 Eyun 的推送后，只做一件事：验证路径密钥 → 去重落盘 → 立刻返回 200（Eyun 回调 6 秒超时，统计和整理都在别处异步做）。
+## 一句话说清分工
+- **AstrBot 负责"对话"**：收微信消息、回复、调用大模型，所有指令（`/整理`、`/查`、`/审`……）都在它的插件里。
+- **Eyun 只负责"收"**：把群和私聊消息存进数据库，并统计响应时长。它**不会回复消息、不下载图片、不调用大模型**，也不会生成知识库。
+- **知识库本身（分类、检索、审核、网页、备份）与机器人无关**，放在 `astrbot/` 目录里，换哪个机器人都能复用。
 
-- **消息类型：** 群消息（文本 80001、图片 80002、引用 80014）和私聊消息（文本 60001、图片 60002、引用 60014、文件 60009）。60008（对方仍在上传）不收，等 60009。
-- **去重：** 用 `wcId:newMsgId` 作为主键，重复推送只存一条。`newMsgId` 超出 JS 精确整数范围，所有整数按字符串读取，避免精度丢失。
-- **私聊会话 ID：** 取「对方」。别人发来的用 `fromUser`，机器人自己发出去的用 `toUser`。
-- **永远回 2xx：** 解析失败的数据进 `raw_events` 留底（只保留最近 500 条），不让 Eyun 反复重试。
-- **访问控制：** 回调路径含随机密钥 `/webhooks/eyun/<EYUN_PATH_SECRET>`（常数时间比较），可选再校验 `X-Eyun-Signature`；请求体上限 5 MB；日志不输出路径，不泄露密钥。
-- **旧库升级：** `MIGRATIONS` 自动给旧库补列，并建索引。
-- **健康检查：** `GET /healthz`。
-
-### 2. 响应时长统计 `eyun/response_stats.py`
-只读数据库，输出近 N 天的提问数、已响应 / 未响应、平均 / 中位 / P90 / 最长响应时长，以及每个员工的回复次数和平均时长。
-
-- **口径：** `staff.json` 里的 wxid 和机器人自己发的消息算「员工」，其余算「客户」。客户连发多条只算一次提问，从第一条未被回复的消息起计时；员工在该群发任意消息即视为已响应。
-- **工作时间：** `--work 09:00-18:00` 只累计工作时段，`--weekdays-only` 周末不计。
-- **超时清单：** `--pending 15` 只列出超过 15 分钟没人回的提问。
-- **只统计群消息，** 私聊不计入。
-
-### 3. 部署文件
-- `eyun/eyun-recv.service`：加固的 systemd 服务（`DynamicUser`、`ProtectSystem=strict`、`MemoryMax=256M`、`NoNewPrivileges` 等），密钥从 `EnvironmentFile` 读取。
-- `eyun/staff.example.json`：员工名单示例。真实的 `staff.json` 已在 `.gitignore` 里。
-
-### 4. 测试 `tests/test_eyun.py`
-11 个测试，全部通过：
-
+## 运行测试
 ```
-python3 -I tests/test_eyun.py
+cd astrbot && for t in tests/test_*.py; do python3 -I $t; done
+python3 -I eyun/tests/test_eyun.py
 ```
+只用 Python 标准库，无需安装依赖。
 
-覆盖：接收与去重、大整数 ID、错误路径和坏数据、各消息类型、签名校验、提问与响应配对、工作时间计算、命令行输出、私聊类型、旧库迁移、统计忽略私聊。
+## 本仓库没有的东西
+仓库是公开的，下面这些**没有上传**，交接时要向负责人单独要：
+- 知识库数据（含客户聊天原文）
+- 种子案例文档及其派生文件
+- 模型 Key、AstrBot 配置、代理节点、各类访问密码
+- 服务器地址
 
-## 用法
-
-```
-# 启动接收服务
-EYUN_PATH_SECRET=$(python3 -c "import secrets;print(secrets.token_urlsafe(32))") \
-EYUN_DB=./eyun.db python3 -I eyun/eyun_recv.py
-# 回调地址：https://<你的域名>/webhooks/eyun/<EYUN_PATH_SECRET>
-
-# 统计
-cp eyun/staff.example.json eyun/staff.json   # 改成真实员工 wxid
-python3 -I eyun/response_stats.py --db eyun.db --staff eyun/staff.json --days 7 --work 09:00-18:00 --weekdays-only
-python3 -I eyun/response_stats.py --db eyun.db --staff eyun/staff.json --pending 15
-```
-
-| 环境变量 | 说明 |
-|---|---|
-| `EYUN_PATH_SECRET` | 必填。回调路径里的随机段 |
-| `EYUN_SIGN_SECRET` | 可选。设置后校验 `X-Eyun-Signature` |
-| `EYUN_DB` | SQLite 路径，默认 `./eyun.db` |
-| `EYUN_BIND` / `EYUN_PORT` | 监听地址与端口，默认 `127.0.0.1:6190`，由隧道转发进来 |
-
-## 未验证 / 已知局限
-
-- **签名算法没有对照真实请求验证过。** Eyun 文档没给出算法，`verify_sign` 按常见的 HMAC-SHA256（hex，可带 `sha256=` 前缀）实现。启用前请用控制台「保存并测试」的真实请求核对一次。
-- **多个客户同时提问时**，无法判断员工在回谁，统一按时间顺序近似，这是群聊统计固有的局限。
-- **没有长期运行的数据。** 只在测试期间收过一批群消息和私聊数据。
-
-## 为什么放弃
-
-评估后结论是不用 Eyun 来收群消息：
-
-1. **非官方协议，有封号风险。**
-2. **稳定性不够。** 小号的实例当天就因「重连失败」掉线，掉线期间的消息收不到，统计会漏数据。
-
-后续继续使用 AstrBot 官方「个人微信」适配器（目前只覆盖私聊）。
+详见 [`docs/功能归属与交接.md`](docs/功能归属与交接.md) 的「交接清单」。

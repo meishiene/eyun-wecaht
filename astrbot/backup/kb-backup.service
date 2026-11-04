@@ -1,0 +1,18 @@
+[Unit]
+Description=Daily backup of the AstrBot knowledge base
+After=local-fs.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 -I /opt/astrbot/tools/kb_backup.py --src /opt/astrbot --dest /opt/astrbot/backup/kb --status /opt/astrbot/backup/status
+Nice=10
+IOSchedulingClass=idle
+TimeoutStartSec=15min
+# 只允许写备份目录；其他地方只读。备份里不含密钥，但压缩包含未脱敏原文，目录权限 700
+NoNewPrivileges=yes
+ProtectSystem=strict
+ReadWritePaths=/opt/astrbot/backup
+ReadOnlyPaths=/opt/astrbot/data /opt/astrbot/web
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes

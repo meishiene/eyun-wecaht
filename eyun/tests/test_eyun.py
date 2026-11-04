@@ -1,8 +1,8 @@
 import hashlib, hmac, json, sqlite3, sys, tempfile, threading, urllib.error, urllib.request
 from datetime import datetime
 from pathlib import Path
-REPO = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(REPO / "eyun"))
+HERE = Path(__file__).resolve().parent.parent   # eyun/
+sys.path.insert(0, str(HERE))
 import eyun_recv as R, response_stats as S
 
 SECRET = "s3cret-path"

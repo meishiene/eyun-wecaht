@@ -1,0 +1,12 @@
+[Unit]
+Description=Run the knowledge base backup every day at 03:30
+
+[Timer]
+OnCalendar=*-*-* 03:30:00
+RandomizedDelaySec=300
+# 服务器当时没开机的话，开机后补跑一次
+Persistent=true
+Unit=kb-backup.service
+
+[Install]
+WantedBy=timers.target

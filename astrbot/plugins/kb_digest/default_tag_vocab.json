@@ -1,0 +1,492 @@
+{
+ "version": 1,
+ "groups": [
+  "厂商",
+  "模型",
+  "渠道形态",
+  "接入工具",
+  "错误码",
+  "其他"
+ ],
+ "tags": [
+  {
+   "name": "Anthropic",
+   "group": "厂商",
+   "aliases": [
+    "Claude"
+   ]
+  },
+  {
+   "name": "OpenAI",
+   "group": "厂商",
+   "aliases": [
+    "GPT"
+   ]
+  },
+  {
+   "name": "Google",
+   "group": "厂商",
+   "aliases": [
+    "Gemini"
+   ]
+  },
+  {
+   "name": "DeepSeek",
+   "group": "厂商",
+   "aliases": [
+    "DS"
+   ]
+  },
+  {
+   "name": "月之暗面",
+   "group": "厂商",
+   "aliases": []
+  },
+  {
+   "name": "智谱",
+   "group": "厂商",
+   "aliases": []
+  },
+  {
+   "name": "字节跳动",
+   "group": "厂商",
+   "aliases": [
+    "字节",
+    "火山"
+   ]
+  },
+  {
+   "name": "Claude 4.6",
+   "group": "模型",
+   "aliases": [],
+   "vendor": "Anthropic"
+  },
+  {
+   "name": "Claude 4.7",
+   "group": "模型",
+   "aliases": [],
+   "vendor": "Anthropic"
+  },
+  {
+   "name": "Claude 5",
+   "group": "模型",
+   "aliases": [],
+   "vendor": "Anthropic"
+  },
+  {
+   "name": "Claude Opus 5",
+   "group": "模型",
+   "aliases": [
+    "claude-opus-5"
+   ],
+   "vendor": "Anthropic"
+  },
+  {
+   "name": "GPT-5.6 Sol",
+   "group": "模型",
+   "aliases": [
+    "gpt-5.6-sol"
+   ],
+   "vendor": "OpenAI"
+  },
+  {
+   "name": "GPT-5.6 Terra",
+   "group": "模型",
+   "aliases": [
+    "terra"
+   ],
+   "vendor": "OpenAI"
+  },
+  {
+   "name": "GPT-5.6 Luna",
+   "group": "模型",
+   "aliases": [
+    "luna"
+   ],
+   "vendor": "OpenAI"
+  },
+  {
+   "name": "GPT-image-2",
+   "group": "模型",
+   "aliases": [],
+   "vendor": "OpenAI"
+  },
+  {
+   "name": "Gemini 3.1 Pro",
+   "group": "模型",
+   "aliases": [
+    "gemini-3.1-pro",
+    "gemini-3.1-pro-preview",
+    "g31-pro-preview",
+    "3pro",
+    "3.1 Pro"
+   ],
+   "vendor": "Google"
+  },
+  {
+   "name": "Gemini 3.1 Flash Lite",
+   "group": "模型",
+   "aliases": [
+    "3.1-flash-lite"
+   ],
+   "vendor": "Google"
+  },
+  {
+   "name": "Gemini 3.1 Flash Image",
+   "group": "模型",
+   "aliases": [
+    "gemini-3.1-flash-image",
+    "gemini-3.1-flash-image-preview"
+   ],
+   "vendor": "Google"
+  },
+  {
+   "name": "Gemini 3.1 Flash Lite Image",
+   "group": "模型",
+   "aliases": [
+    "gemini-3.1-flash-lite-image"
+   ],
+   "vendor": "Google"
+  },
+  {
+   "name": "Kimi K3",
+   "group": "模型",
+   "aliases": [],
+   "vendor": "月之暗面"
+  },
+  {
+   "name": "GLM-5.3",
+   "group": "模型",
+   "aliases": [],
+   "vendor": "智谱"
+  },
+  {
+   "name": "GLM-5.3-Flash",
+   "group": "模型",
+   "aliases": [],
+   "vendor": "智谱"
+  },
+  {
+   "name": "Seedance",
+   "group": "模型",
+   "aliases": [],
+   "vendor": "字节跳动"
+  },
+  {
+   "name": "Seedance 2.5",
+   "group": "模型",
+   "aliases": [],
+   "vendor": "字节跳动"
+  },
+  {
+   "name": "Seedance 2.0",
+   "group": "模型",
+   "aliases": [
+    "Seedance 2.0 4K"
+   ],
+   "vendor": "字节跳动"
+  },
+  {
+   "name": "号池",
+   "group": "渠道形态",
+   "aliases": [
+    "账号池"
+   ]
+  },
+  {
+   "name": "反代",
+   "group": "渠道形态",
+   "aliases": [
+    "订阅反代",
+    "订阅号反代"
+   ]
+  },
+  {
+   "name": "Adobe反代",
+   "group": "渠道形态",
+   "aliases": [
+    "Adobe"
+   ]
+  },
+  {
+   "name": "直连",
+   "group": "渠道形态",
+   "aliases": [
+    "直接 Key"
+   ]
+  },
+  {
+   "name": "官方 API",
+   "group": "渠道形态",
+   "aliases": [
+    "官方"
+   ]
+  },
+  {
+   "name": "中转",
+   "group": "渠道形态",
+   "aliases": [
+    "代理/中转版"
+   ]
+  },
+  {
+   "name": "Azure",
+   "group": "渠道形态",
+   "aliases": []
+  },
+  {
+   "name": "Bedrock",
+   "group": "渠道形态",
+   "aliases": [
+    "AWSB",
+    "AWS"
+   ]
+  },
+  {
+   "name": "Bedrock Runtime",
+   "group": "渠道形态",
+   "aliases": [
+    "Runtime"
+   ]
+  },
+  {
+   "name": "Claude Platform on AWS",
+   "group": "渠道形态",
+   "aliases": []
+  },
+  {
+   "name": "Vertex",
+   "group": "渠道形态",
+   "aliases": [
+    "VT"
+   ]
+  },
+  {
+   "name": "AI Studio",
+   "group": "渠道形态",
+   "aliases": [
+    "AS",
+    "Gemini-AiStudio",
+    "Gemini API"
+   ]
+  },
+  {
+   "name": "OpenRouter",
+   "group": "渠道形态",
+   "aliases": []
+  },
+  {
+   "name": "ccmax",
+   "group": "渠道形态",
+   "aliases": []
+  },
+  {
+   "name": "Pro 渠道",
+   "group": "渠道形态",
+   "aliases": [
+    "pro渠道"
+   ]
+  },
+  {
+   "name": "flare/sunburst",
+   "group": "渠道形态",
+   "aliases": []
+  },
+  {
+   "name": "Claude Code",
+   "group": "接入工具",
+   "aliases": []
+  },
+  {
+   "name": "Codex CLI",
+   "group": "接入工具",
+   "aliases": [
+    "codex"
+   ]
+  },
+  {
+   "name": "OpenClaw",
+   "group": "接入工具",
+   "aliases": []
+  },
+  {
+   "name": "Cherry Studio",
+   "group": "接入工具",
+   "aliases": []
+  },
+  {
+   "name": "VS Code 插件",
+   "group": "接入工具",
+   "aliases": [
+    "VS Code 官方插件"
+   ]
+  },
+  {
+   "name": "OpenAI SDK",
+   "group": "接入工具",
+   "aliases": []
+  },
+  {
+   "name": "400",
+   "group": "错误码",
+   "aliases": []
+  },
+  {
+   "name": "401",
+   "group": "错误码",
+   "aliases": []
+  },
+  {
+   "name": "403",
+   "group": "错误码",
+   "aliases": []
+  },
+  {
+   "name": "404",
+   "group": "错误码",
+   "aliases": []
+  },
+  {
+   "name": "429",
+   "group": "错误码",
+   "aliases": []
+  },
+  {
+   "name": "500",
+   "group": "错误码",
+   "aliases": []
+  },
+  {
+   "name": "502",
+   "group": "错误码",
+   "aliases": []
+  },
+  {
+   "name": "503",
+   "group": "错误码",
+   "aliases": []
+  },
+  {
+   "name": "1301",
+   "group": "错误码",
+   "aliases": []
+  },
+  {
+   "name": "model_not_found",
+   "group": "错误码",
+   "aliases": []
+  },
+  {
+   "name": "Google T2",
+   "group": "其他",
+   "aliases": [
+    "T2"
+   ]
+  },
+  {
+   "name": "GCP300",
+   "group": "其他",
+   "aliases": []
+  },
+  {
+   "name": "Max 5x",
+   "group": "其他",
+   "aliases": []
+  },
+  {
+   "name": "Max 20x",
+   "group": "其他",
+   "aliases": []
+  },
+  {
+   "name": "Team",
+   "group": "其他",
+   "aliases": []
+  },
+  {
+   "name": "PayGo",
+   "group": "其他",
+   "aliases": []
+  },
+  {
+   "name": "Priority",
+   "group": "其他",
+   "aliases": []
+  },
+  {
+   "name": "Flex",
+   "group": "其他",
+   "aliases": []
+  },
+  {
+   "name": "Provisioned",
+   "group": "其他",
+   "aliases": []
+  },
+  {
+   "name": "TPM",
+   "group": "其他",
+   "aliases": []
+  },
+  {
+   "name": "128V",
+   "group": "其他",
+   "aliases": []
+  },
+  {
+   "name": "生图模型",
+   "group": "其他",
+   "aliases": []
+  },
+  {
+   "name": "模型验真",
+   "group": "其他",
+   "aliases": []
+  },
+  {
+   "name": "Protobuf签名校验",
+   "group": "其他",
+   "aliases": []
+  },
+  {
+   "name": "JWT",
+   "group": "其他",
+   "aliases": []
+  },
+  {
+   "name": "CoT",
+   "group": "其他",
+   "aliases": []
+  },
+  {
+   "name": "nothinking",
+   "group": "其他",
+   "aliases": []
+  },
+  {
+   "name": "channel OAuth",
+   "group": "其他",
+   "aliases": []
+  },
+  {
+   "name": "Muxla",
+   "group": "其他",
+   "aliases": []
+  },
+  {
+   "name": "NewAPI",
+   "group": "其他",
+   "aliases": []
+  },
+  {
+   "name": "Gemini-Image-Pro",
+   "group": "其他",
+   "aliases": []
+  },
+  {
+   "name": "Gemini-Image-Count-Pro",
+   "group": "其他",
+   "aliases": []
+  }
+ ]
+}
