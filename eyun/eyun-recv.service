@@ -1,0 +1,37 @@
+[Unit]
+Description=Eyun webhook receiver (group messages -> sqlite)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+DynamicUser=yes
+# EYUN_PATH_SECRET=随机串，可用 python3 -c "import secrets;print(secrets.token_urlsafe(32))" 生成
+# EYUN_SIGN_SECRET=控制台「生成密钥」得到的值（可选）
+EnvironmentFile=/etc/eyun-recv.env
+Environment=EYUN_DB=/var/lib/eyun/eyun.db
+Environment=EYUN_BIND=127.0.0.1
+Environment=EYUN_PORT=6190
+StateDirectory=eyun
+ExecStart=/usr/bin/python3 -I /opt/eyun/eyun_recv.py
+Restart=always
+RestartSec=3
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_INET AF_INET6
+RestrictNamespaces=yes
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+SystemCallArchitectures=native
+CapabilityBoundingSet=
+LimitNOFILE=1024
+MemoryMax=256M
+TasksMax=64
+
+[Install]
+WantedBy=multi-user.target
